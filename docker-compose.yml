@@ -34,7 +34,6 @@ services:
 
     environment:
       DATABASE_URL: postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@postgres:5432/${POSTGRES_DB}
-      OPENROUTER_API_KEY: ${OPENROUTER_API_KEY}
       NVIDIA_AI_API_KEY: ${NVIDIA_AI_API_KEY}
 
     depends_on:
@@ -44,22 +43,22 @@ services:
     restart: unless-stopped
 
 
-  frontend:
-    build:
-      context: ./frontend/riskbridge
-
-    container_name: riskbridge-frontend
-
-    ports:
-      - "3000:3000"
-
-    environment:
-      NEXT_PUBLIC_API_URL: http://localhost:8000
-
-    depends_on:
-      - backend
-
-    restart: unless-stopped
+  # frontend:
+  #   build:
+  #     context: ./frontend/riskbridge
+  #
+  #   container_name: riskbridge-frontend
+  #
+  #   ports:
+  #     - "3000:3000"
+  #
+  #   environment:
+  #     NEXT_PUBLIC_API_URL: http://localhost:8000
+  #
+  #   depends_on:
+  #     - backend
+  #
+  #   restart: unless-stopped
 
 
 volumes:
