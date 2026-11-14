@@ -12,19 +12,10 @@ Record meaningful bugs or recurring misconceptions. Preserve the original reason
 - **Prevention:** Always define the "decision the platform makes" and the "primary output" before committing to a framework.
 - **Follow-up exercise:** Defend the choice of PostgreSQL/pgvector specifically in the context of the RAG requirements.
 
-## 2026-11-13: AI Training vs. RAG Misconception
-
-- **Problem:** Thinking that "adding AI" meant training a custom machine learning model from scratch.
-- **Mistake:** Confusing **Model Training** (creating the brain) with **RAG/Inference** (giving the brain a textbook).
-- **Original mental model:** "I have to train an AI model to understand security."
-- **Correct mental model:** Use a pre-trained LLM (via OpenRouter/Ollama) and provide it with specific context (NIST/ISO text) at query time. This is faster, cheaper, and more accurate for compliance mapping.
-- **Category:** AI Architecture
-- **Prevention:** Distinguish between learning a language (Training) and looking up facts (RAG).
-
-## 2026-11-13: The "Static Audit" Assumption
-
-- **Problem:** Initially viewing GRC as just a dashboard or a "one-time" report.
-- **Mistake:** Underestimating the value of **Continuous Monitoring**.
-- **Original mental model:** "It's just a GRC platform, that's it."
-- **Correct mental model:** Modern GRC is a "living" system that acts as an "Open Source Vanta Alternative," providing continuous evidence collection rather than static annual audits.
-- **Category:** Product Strategy
+## 2026-11-14: Treating Alerts as Compliance Findings
+- **Problem:** Equating raw security logs directly with compliance findings.
+- **Mistake:** Assuming that an alert from a SIEM automatically translates to a compliance status without intermediate reasoning.
+- **Original mental model:** "Wazuh log is the compliance finding."
+- **Correct mental model:** Logs are *Evidence*; Compliance Findings are *interpretations* of evidence against specific controls. They must be kept distinct in the architecture to allow for human review and audit trails.
+- **Category:** Architecture / Logic
+- **Prevention:** Always distinguish between the "Technical Finding" domain and the "Compliance Mapping" domain.

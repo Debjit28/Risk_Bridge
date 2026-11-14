@@ -10,15 +10,8 @@ Keep unresolved questions concise. Add a date or context when it helps.
 - **Evidence or research needed:** Look into NIST SP 800-30 and how it defines Likelihood/Impact.
 - **Status:** unresolved
 
-## 2026-11-13: Multi-Framework Evidence Reuse
-
-- **Context:** A single piece of evidence (e.g., "MFA is enabled") often satisfies requirements in multiple frameworks (NIST, ISO, SOC2).
-- **Current hypothesis:** Use a Many-to-Many database relationship between `Evidence` and `Controls` so that 1 Evidence -> N Controls.
-- **Status:** unresolved
-
-## 2026-11-13: Cloud Ingestion (AWS/Azure)
-
-- **Context:** How to conveniently connect to cloud providers for automated checks.
-- **Current hypothesis:** Use Read-Only IAM roles/API keys to "poll" for infrastructure state (e.g., checking S3 bucket permissions).
-- **Evidence or research needed:** Research the `boto3` library for AWS state checks.
+## 2026-11-14: Defining Domain Responsibilities
+- **Context:** We have domains (Auth, Assets, Ingestion, Compliance, Intelligence, Reporting).
+- **Current hypothesis:** These are sufficient for the MVP.
+- **Evidence or research needed:** Need to determine if "Threat Intelligence" is needed in the MVP or if it's "future work."
 - **Status:** unresolved

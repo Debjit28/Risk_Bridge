@@ -1,0 +1,66 @@
+services:
+  postgres:
+    image: ankane/pgvector:v0.5.1
+    container_name: riskbridge-db
+
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+
+    ports:
+      - "5432:5432"
+
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+    restart: unless-stopped
+
+
+  backend:
+    build:
+      context: ./backend
+
+    container_name: riskbridge-backend
+
+    ports:
+      - "8000:8000"
+
+    environment:
+      DATABASE_URL: postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@postgres:5432/${POSTGRES_DB}
+      OPENROUTER_API_KEY: ${OPENROUTER_API_KEY}
+      NVIDIA_AI_API_KEY: ${NVIDIA_AI_API_KEY}
+
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+    restart: unless-stopped
+
+
+  frontend:
+    build:
+      context: ./frontend/riskbridge
+
+    container_name: riskbridge-frontend
+
+    ports:
+      - "3000:3000"
+
+    environment:
+      NEXT_PUBLIC_API_URL: http://localhost:8000
+
+    depends_on:
+      - backend
+
+    restart: unless-stopped
+
+
+volumes:
+  postgres_data:

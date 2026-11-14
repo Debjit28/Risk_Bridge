@@ -2,6 +2,19 @@
 
 Keep short retrieval prompts or review metadata for meaningful topics.
 
+## 2026-11-14: Backend Map & Architectural Domain Definition
+
+- **What we worked on:** Designed the backend architecture map (Phase 1) and defined core domains.
+- **Major conclusions:** The backend will be organized into 6 core domains: Auth/Org, Assets, Ingestion, Compliance, Intelligence, and Reporting. 
+- **Decisions made:**
+    - Confirmed the distinction between Technical Alerts and Compliance Findings.
+    - Confirmed MVP scope excludes "Threat Intelligence" for now to focus on core Compliance mapping.
+    - Architecture uses a Pipeline flow: Ingestion -> Normalization -> RAG Intelligence -> Persistent Storage -> Dashboard.
+- **Reasoning behind decisions:** Separating technical evidence from compliance findings is required for auditability and explainability.
+- **Unresolved issues:** Threat Intelligence inclusion, database schema finalization, and remediation UI workflows.
+- **Stopping point:** Backend domains defined, architecture conceptualized, readiness for Phase 2 (API Map) and Phase 3 (Data Model).
+- **Recommended starting point for next session:** Design the API Map (endpoints) for the "Ingestion" and "Compliance" domains.
+
 ## 2026-11-13: Defining the "Open Source Vanta Alternative"
 
 - **What we worked on:** Refined the project goal from a general GRC platform to a "Modern/Continuous GRC" tool (like an open-source Vanta).
