@@ -1,52 +1,43 @@
-import os
 import requests
-from dotenv import load_dotenv
 
-load_dotenv()
+import base64
 
-NVIDIA_KEY = os.getenv("NVIDIA_AI_API_KEY")
-RERANK_URL = "https://ai.api.nvidia.com/v1/retrieval/nvidia/nemotron-3.5-rerank-8b/reranking"
+base64_images = {}
 
-# Hardcoded controls for our first test
-SAMPLE_CONTROLS = [
-    {"id": "NIST-AC-2", "text": "Account management: The organization manages information system accounts, including establishing, activating, modifying, reviewing, disabling, and removing accounts."},
-    {"id": "ISO-A.12.1.2", "text": "Change management: Changes to the organization, business processes, information processing facilities and systems that affect information security shall be controlled."},
-    {"id": "NIST-SI-7", "text": "Software, firmware, and information integrity: The organization employs integrity verification tools to detect unauthorized changes to software and information."}
-]
+with open("image_0.jpg", "rb") as f:
+    base64_images[0] = base64.b64encode(f.read()).decode()
+with open("image_1.jpg", "rb") as f:
+    base64_images[1] = base64.b64encode(f.read()).decode()
 
-def analyze_wazuh_event(event_description: str):
-    """
-    Takes a Wazuh alert description and finds the most relevant NIST/ISO control.
-    """
-    headers = {
-        "Authorization": f"Bea
-        "Accept": "application/json",
-    }
+invoke_url = "https://ai.api.nvidia.com/v1/retrieval/nvidia/nemotron-3.5-rerank-8b/reranking"
 
-    # Format the hardcoded conucture NVIDIA wants
-    passages = [{"text": control["text"]} for control in SAMPLE_CONTROLS]
+headers = {
+    "Authorization": "Bearer $NVIDIA_AI_API_KEY",
+    "Accept": "application/json",
+}
 
-    payload = {
-        "model": "nvidia/nemot
-        "query": {"text": event_description},
-        "passages": passages
-    }
+payload = {
+    "model": "nvidia/nemotron-3.5-rerank-8b",
+    "query": {
+        "text": "How is AI improving the intelligence and capabilities of robots?"
+    },
+    "passages": [
+        {
+            "text": "AI enables robots to perceive, plan, and act autonomously."
+            , "image": f"data:image/jpeg;base64,{base64_images[0]}"
+            
+        },
+        {
+            "text": "A biological foundation model designed to analyze and generate DNA, RNA, and protein sequences."
+            , "image": f"data:image/jpeg;base64,{base64_images[1]}"
+            
+        }
+    ]
+}
 
-    response = requests.post(RERANK_URL, headers=headers, json=payload)
+session = requests.Session()
+response = session.post(invoke_url, headers=headers, json=payload)
 
-    if response.status_code != 200:
-        return {"error": "NVIDsponse.text}
-
-    rankings = response.json()
-
-    # Map back to our sample c
-    results = []
-    for rank in rankings:
-        idx = rank["index"]
-        results.append({
-            "control_id": SAMPLE_CONTROLS[idx]["id"],
-            "score": rank["log
-            "description": SAMPLE_CONTROLS[idx]["text"]
-        })
-
-    return results
+response.raise_for_status()
+response_body = response.json()
+print(response_body)
