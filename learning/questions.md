@@ -15,3 +15,10 @@ Keep unresolved questions concise. Add a date or context when it helps.
 - **Current hypothesis:** These are sufficient for the MVP.
 - **Evidence or research needed:** Need to determine if "Threat Intelligence" is needed in the MVP or if it's "future work."
 - **Status:** unresolved
+
+## 2026-11-20: Neon Auth Integration with FastAPI
+- **Context:** Decided to use Neon Auth for backend authentication.
+- **Current hypothesis:** Use Neon Auth's supported integration pattern (JWT validation or Auth HTTP client) in FastAPI.
+- **Alternatives still being considered:** Managed Better Auth vs. standard JWT bearer verification.
+- **Evidence or research needed:** Test Neon Auth endpoints and review Neon Auth FastAPI patterns.
+- **Status:** unresolved

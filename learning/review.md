@@ -1,14 +1,20 @@
-## 2026-11-16: Infrastructure and Configuration
-- **What we worked on:** Fixed Docker containerization for the backend, resolved Postgres startup conflicts, configured `uv` package management, and created the core configuration scaffolding (`core/config.py`).
+# Review
+
+Keep short retrieval prompts or review metadata for meaningful topics.
+
+## 2026-11-20: Infrastructure Cleanup & Neon Postgres Transition
+
+- **What we worked on:** Transitioned the project from local Docker PostgreSQL/pgvector to Neon Postgres (cloud) & Neon Auth. Cleaned up obsolete local database configurations in `docker-compose.yml` and `.env.example`.
 - **Major conclusions:** 
-    - The backend Dockerfile must copy source code *before* running `uv sync` so the package structure is detectable.
-    - Postgres requires explicit non-empty password variables and healthchecks to prevent startup crashes.
+    - The primary database is now Neon Postgres; local Docker postgres container setup was removed from `docker-compose.yml`.
+    - FastAPI container support in Docker Compose remains intact.
+    - `.env` file was strictly protected and kept untouched throughout the operation.
 - **Decisions made:**
-    - Confirmed use of `pydantic-settings` for config management (`core/config.py`).
-    - Changed the default host port mapping for Postgres from `5432:5432` to `5433:5432` to avoid host machine conflicts.
-    - Created an `.env.example` template for future environment setup.
-- **Reasoning behind decisions:** Container isolation requires explicit environment and path configuration to ensure repeatable developer setups.
-- **Important tradeoffs discovered:** Running local development databases alongside containerized ones requires explicit port remapping.
-- **Unresolved issues:** Implementing the database models in `database.py` and writing the compliance service logic using the NVIDIA RAG snippet.
-- **Stopping point:** Docker stack is fully operational (`http://localhost:8000/health` returns healthy), basic `core/config.py` initiated, and environment template created.
-- **Recommended starting point for next session:** Implement `core/database.py` and structure the `ComplianceService` using the NVIDIA RAG snippet.
+    - Removed `postgres` service and `postgres_data` volume from `docker-compose.yml`.
+    - Updated `docker-compose.yml` `backend` service to consume standard `DATABASE_URL` directly.
+    - Cleaned `.env.example` to remove local `POSTGRES_USER/PASSWORD/DB` variables and present safe placeholders for `DATABASE_URL` and `NVIDIA_AI_API_KEY`.
+    - Preserved `neon.ts`, `package.json`, and NVIDIA RAG configuration for future integration.
+- **Reasoning behind decisions:** Removing redundant local database infrastructure simplifies dev environment management and aligns with cloud-first Neon Postgres deployment.
+- **Unresolved issues:** Wiring Neon Postgres into `backend/src/backend/core/database.py` via SQLAlchemy, and implementing Neon Auth integration in FastAPI.
+- **Stopping point:** Docker Compose cleaned up for FastAPI + Neon Postgres. `.env` untouched. Project structure verified.
+- **Recommended starting point for next session:** Implement `core/database.py` with SQLAlchemy connecting to Neon Postgres (`DATABASE_URL`), then wire `core/config.py`.
