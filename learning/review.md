@@ -18,3 +18,6 @@ Keep short retrieval prompts or review metadata for meaningful topics.
 - **Unresolved issues:** Wiring Neon Postgres into `backend/src/backend/core/database.py` via SQLAlchemy, and implementing Neon Auth integration in FastAPI.
 - **Stopping point:** Docker Compose cleaned up for FastAPI + Neon Postgres. `.env` untouched. Project structure verified.
 - **Recommended starting point for next session:** Implement `core/database.py` with SQLAlchemy connecting to Neon Postgres (`DATABASE_URL`), then wire `core/config.py`.
+
+
+“We have implemented NIST Cybersecurity Framework 2.0, the latest major version of the NIST CSF.”
