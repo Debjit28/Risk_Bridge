@@ -5,6 +5,8 @@ from alembic import context
 
 from backend.core.database import Base, database_url
 
+import backend.models
+
 # Interpret the config file for Python logging
 config = context.config
 if config.config_file_name is not None:
